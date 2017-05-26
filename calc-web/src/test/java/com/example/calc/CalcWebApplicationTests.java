@@ -14,5 +14,4 @@ public class CalcWebApplicationTests {
 	public void contextLoads() {
 		Assert.isTrue( true, "Something went wrong :(" );
 	}
-
 }
