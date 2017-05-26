@@ -1,4 +1,6 @@
 language: java
+jdk:
+ - openjdk8
 env:
   - TEST_DIR=calc-web
   - TEST_DIR=calc-db
