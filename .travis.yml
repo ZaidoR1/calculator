@@ -1,1 +1,5 @@
 language: java
+env:
+  - TEST_DIR=calc-web
+  - TEST_DIR=calc-db
+script: cd $TEST_DIR && ./gradlew
