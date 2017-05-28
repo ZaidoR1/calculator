@@ -9,10 +9,8 @@ deploy:
   provider: releases
   api_key:
       secure: AmXpCwM3sRFFsopt0DNWt3qx4vvrkZqGD63S2CbHQR9UjK4E2tzpl/EMzA16etp4W/IPe6L0FhR+MZlOfJebkPMigAHAQV+sx4cGuIam80Nt57r1ddJGBggwkaTNuwQkbi6LixuSWjCYJhKSzd13HbBq2dFIga7kHlVVkYYOYx+DEoo3ubkc3AD+Ezj2rNJyqd2JUcArFT6aXVclVywbSlwgIZY4/k9SPL3OEYyg2IszIeF9y3pJJqxzYlJrF+7+BYT+dMs+gRl+DmeWzldOgD607jA3/OrVSjzMwvrK1QQtp5BiiSTwGPfHiI+t86p4HhSQEALgCXbXXR3U7lyxesNZrn+SqORiWVU8MYSnSB54H6AOccO8Md/+AZFH6EPC05PjEmMUL3IsYA4K40YByKDDX5T8nUWl2rLoMYsbSiWZU4FqjwT/TdCBV5A4+akk/VCGk/tS5NcL5C0KhsICUwiQvkXwbKYELcMON2RywJ7p5/rsaZn8a6Y5xzfkyptlqp4qzZ3OHOFPxuQQ2MI6/7Z2uNe2E/e3jxQBcmvC2MXuJ5PrMyXFZkkhwI+OxZqp8huePIsGUVuvPdS2+PBbkLWepneTrwWWZZNqzJGKlIVGE1tMbn1wJh/rZJM7/h6u1SOhTWgXMthE8kRZWNMENSYzwlpHDRAWnecsHZPWnkA=
-  file_glob: true
   file:
-    - "calc-web/build/libs/*.jar"
-    #- "calc-db/build/libs/*.jar"
+    - "$TEST_DIR/build/libs/$TEST_DIR-0.0.1-SNAPSHOT.jar"
   skip_cleanup: true
   on:
     branch: develop
