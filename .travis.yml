@@ -13,5 +13,5 @@ deploy:
     - "build/libs/$TEST_DIR-0.0.1-SNAPSHOT.jar"
   skip_cleanup: true
   on:
-    branch: develop
-    #tags: true
+    #branch: develop
+    tags: true
