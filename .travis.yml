@@ -4,7 +4,7 @@ jdk:
 env:
   - TEST_DIR=calc-web
   - TEST_DIR=calc-db
-script: cd $TEST_DIR && chmod +x gradlew && ./gradlew build
+script: cd $TEST_DIR && chmod +x gradlew && ./gradlew clean build
 deploy:
   provider: releases
   api_key:
