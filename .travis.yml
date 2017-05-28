@@ -4,6 +4,7 @@ jdk:
 env:
   - TEST_DIR=calc-web
   - TEST_DIR=calc-db
+script: cd $TEST_DIR && ./gradlew build
 deploy:
   provider: releases
   api_key:
@@ -15,5 +16,3 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-before_deploy:
-  script: cd $TEST_DIR && ./gradlew build
