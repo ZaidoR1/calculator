@@ -1,5 +1,8 @@
 package com.example.calc;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,6 +34,29 @@ public class CalcController {
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> create(@RequestBody CalcEntry entry) {
 		entry = repo.save(entry);
+		
+		SessionFactory sessFact = null;
+		Session session = null;
+		try
+		{
+			sessFact = HibernateUtil.getSessionFactory();
+			session = sessFact.openSession();
+
+			org.hibernate.Transaction tr = session.beginTransaction();
+			session.save( entry );
+			tr.commit();
+		}
+		catch (HibernateException e)
+		{
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+		finally
+		{
+			if ( session != null && session.isOpen() )
+				session.close();
+		}
+		
 		return ResponseEntity.ok(entry);
 	}
 	
