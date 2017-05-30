@@ -4,12 +4,6 @@ jdk:
 env:
   - TEST_DIR=calc-web
   - TEST_DIR=calc-db
-  
-services:
-  - mysql
-before_install:
-  - mysql -e 'CREATE DATABASE `calc-db`;'
-
 script: cd $TEST_DIR && chmod +x gradlew && ./gradlew clean build
 deploy:
   provider: releases
