@@ -8,7 +8,7 @@ env:
 services:
   - mysql
 before_install:
-  - mysql -e 'CREATE DATABASE `mytest-db`;'
+  - mysql -e 'CREATE DATABASE `calc-db`;'
 
 script: cd $TEST_DIR && chmod +x gradlew && ./gradlew clean build
 deploy:
