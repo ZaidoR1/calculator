@@ -9,9 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import lombok.Data;
-
-@Data
 @Entity
 public class CalcEntry {
 	
@@ -25,4 +22,38 @@ public class CalcEntry {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date = new Date();
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getOperation() {
+		return operation;
+	}
+
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
+	
 }
