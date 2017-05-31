@@ -1,48 +1,68 @@
 package com.example.calc;
 
+import java.util.Date;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping(value = "/history")
+@RestController
 public class CalcController {
-
+	
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass()); 
+	
 	@Autowired
 	private CalcRepository repo;
 
-	@RequestMapping(value = "", 
-			method = RequestMethod.GET,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> getEntries() {
-		Iterable<CalcEntry> entries = repo.findAll();
-		return ResponseEntity.ok(entries);
-	}
-
-	@RequestMapping(value = "", 
-			method = RequestMethod.PUT,
-			produces = MediaType.APPLICATION_JSON_VALUE,
-			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> create(@RequestBody CalcEntry entry) {
-		entry = repo.save(entry);
-		
-		return ResponseEntity.ok(entry);
+	@GetMapping("histories")
+	public ResponseEntity<?> getAll() {
+		return ResponseEntity.ok(repo.findAll());
 	}
 	
-	@RequestMapping(value = "{id}",
-			method = RequestMethod.DELETE)
-	public ResponseEntity<?> delete(@PathVariable Long id) {
-		CalcEntry item = repo.findOne(id);
-		if ( item != null ) {
-			repo.delete(item);
-			return ResponseEntity.ok(item);
+	@GetMapping("history/{id}")
+	public ResponseEntity<?> get(@PathVariable Long id) {
+		CalcEntry entry = repo.findOne(id);
+		if (entry != null) {
+			return ResponseEntity.ok(entry);
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		return ResponseEntity.notFound().build();
+	}
+	
+	@PostMapping("history")
+	public ResponseEntity<?> add(@RequestBody CalcEntry entry) {
+		return ResponseEntity.ok(repo.save(entry));
+	}
+	
+	@PutMapping("history/{id}")
+	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CalcEntry entry) {
+		CalcEntry oldEntry = repo.findOne(id);
+		if (oldEntry != null) {
+			oldEntry.setOperation(entry.getOperation());
+			oldEntry.setResult(entry.getResult());
+			oldEntry.setDate(new Date());
+			return ResponseEntity.ok(repo.save(oldEntry));
+		}
+		
+		LOGGER.info("Entry with id {} not found for updating", id);
+		return ResponseEntity.notFound().build();
+	}
+	
+	@DeleteMapping("history/{id}")
+	public ResponseEntity<?> delete(@PathVariable Long id) {
+		try {
+			repo.delete(repo.findOne(id));
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			LOGGER.info("Entry with id {} not found for deleting", id);
+			return ResponseEntity.notFound().build();
+		}
 	}
 }

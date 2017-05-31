@@ -18,10 +18,20 @@ public class CalcEntry {
 	
 	private String operation;
 	
-	private String result;
+	private double result;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date = new Date();
+
+	public CalcEntry() {
+		super();
+	}
+
+	public CalcEntry(String operation, double result) {
+		super();
+		this.operation = operation;
+		this.result = result;
+	}
 
 	public Long getId() {
 		return id;
@@ -39,11 +49,11 @@ public class CalcEntry {
 		this.operation = operation;
 	}
 
-	public String getResult() {
+	public double getResult() {
 		return result;
 	}
 
-	public void setResult(String result) {
+	public void setResult(double result) {
 		this.result = result;
 	}
 
