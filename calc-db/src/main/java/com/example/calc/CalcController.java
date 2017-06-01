@@ -37,17 +37,14 @@ public class CalcController {
 		return ResponseEntity.notFound().build();
 	}
 	
-	@PostMapping("history")
+	@PostMapping("calculation")
 	public ResponseEntity<?> add(@RequestBody CalcEntry entry) {
 		
-		try
-		{
+		try {
 			entry = CalcWorker.getResult( entry );
-		}
-		catch (CalcException e)
-		{
+		} catch (CalcException e) {
 			LOGGER.error("Exception while calculation result for {}", entry.getOperation());
-			// TODO: Stacktrace in logger
+			CalcException.logException( LOGGER, e );
 			
 			// TODO: Error Message (not only Error Status) to Frontend?
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -60,6 +57,16 @@ public class CalcController {
 	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CalcEntry entry) {
 		CalcEntry oldEntry = repo.findOne(id);
 		if (oldEntry != null) {
+			try {
+				entry = CalcWorker.getResult( entry );
+			} catch (CalcException e) {
+				LOGGER.error("Exception while calculation result for {}", entry.getOperation());
+				CalcException.logException( LOGGER, e );
+				
+				// TODO: Error Message (not only Error Status) to Frontend?
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			}
+			
 			oldEntry.setOperation(entry.getOperation());
 			oldEntry.setResult(entry.getResult());
 			oldEntry.setDate(new Date());
