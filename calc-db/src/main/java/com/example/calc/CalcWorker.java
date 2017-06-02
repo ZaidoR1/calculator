@@ -13,29 +13,24 @@ public class CalcWorker
 	 * (see {@linkplain}https://github.com/uklimaschewski/EvalEx )
 	 * 
 	 * @param entry
-	 * @return calculated result
-	 * @throws CalcException
+	 * @return entry with calculated result
+	 * @throws Exception
 	 * 
 	 */
-	static CalcEntry getResult( CalcEntry entry ) throws CalcException 
+	static CalcEntry getResult( CalcEntry entry ) throws Exception 
 	{
 		double result = 0.0;
 		entry.setResult( 0.0 );
 		
 		if ( entry == null || entry.getOperation() == null || entry.getOperation().length() < 1 )
-			throw new CalcException( "Operation not valid" );
+			throw new Exception( "Operation not valid" );
 		
-		try
-		{
+		try	{
 			result = new Expression( entry.getOperation()).eval().doubleValue();
-		}
-		catch( ExpressionException e)
-		{
-			throw new CalcException( "Operation not valid" );
-		}
-		catch (Exception e)
-		{
-			throw new CalcException();
+		} catch( ExpressionException e)	{
+			throw new Exception( "Operation not valid" );
+		} catch (Exception e)	{
+			throw new Exception();
 		}
 		entry.setResult( result );
 		
