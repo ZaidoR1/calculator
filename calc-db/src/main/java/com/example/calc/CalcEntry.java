@@ -9,17 +9,29 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 @Entity
 public class CalcEntry {
-	
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(CalcEntry.class);
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String operation;
-	
+
+	@JsonProperty(access = Access.READ_ONLY)
 	private double result;
-	
+
+	@JsonProperty(access = Access.READ_ONLY)
+	private boolean valide;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date = new Date();
 
@@ -27,10 +39,9 @@ public class CalcEntry {
 		super();
 	}
 
-	public CalcEntry(String operation, double result) {
+	public CalcEntry(String operation) {
 		super();
-		this.operation = operation;
-		this.result = result;
+		setOperation(operation);
 	}
 
 	public Long getId() {
@@ -46,14 +57,25 @@ public class CalcEntry {
 	}
 
 	public void setOperation(String operation) {
-		this.operation = operation;
+		if (operation == null) {
+			operation = "";
+		}
+		this.operation = operation.trim().replaceAll(",", ".");
+		try {
+			setResult(CalcWorker.calculate(operation));
+			setValide(true);
+		} catch (Exception e) {
+			LOGGER.error("Failed to create result for operation '{}'", operation, e);
+			setResult(0);
+			setValide(false);
+		}
 	}
 
 	public double getResult() {
 		return result;
 	}
 
-	public void setResult(double result) {
+	private void setResult(double result) {
 		this.result = result;
 	}
 
@@ -64,6 +86,18 @@ public class CalcEntry {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
-	
+
+	public boolean isValide() {
+		return valide;
+	}
+
+	private void setValide(boolean valide) {
+		this.valide = valide;
+	}
+
+	@Override
+	public String toString() {
+		return "CalcEntry [id=" + id + ", operation=" + operation + ", result=" + result + ", valide=" + valide
+				+ ", date=" + date + "]";
+	}
 }
