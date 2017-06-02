@@ -1,6 +1,7 @@
 package com.example.calc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class CalcController {
 
 	@PostMapping("history")
 	public ResponseEntity<?> add(@RequestBody CalcEntry entry) {
-		return ResponseEntity.ok(repo.save(entry));
+		return ResponseEntity.status(HttpStatus.CREATED).body(repo.save(entry));
 	}
 
 	// @PutMapping("history/{id}")

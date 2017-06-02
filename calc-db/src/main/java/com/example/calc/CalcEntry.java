@@ -30,7 +30,7 @@ public class CalcEntry {
 	private double result;
 
 	@JsonProperty(access = Access.READ_ONLY)
-	private boolean valide;
+	private boolean valid;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date = new Date();
@@ -63,11 +63,11 @@ public class CalcEntry {
 		this.operation = operation.trim().replaceAll(",", ".");
 		try {
 			setResult(CalcWorker.calculate(operation));
-			setValide(true);
-		} catch (Exception e) {
+			setValid(true);
+		} catch (final Exception e) {
 			LOGGER.error("Failed to create result for operation '{}'", operation, e);
 			setResult(0);
-			setValide(false);
+			setValid(false);
 		}
 	}
 
@@ -87,17 +87,17 @@ public class CalcEntry {
 		this.date = date;
 	}
 
-	public boolean isValide() {
-		return valide;
+	public boolean isValid() {
+		return valid;
 	}
 
-	private void setValide(boolean valide) {
-		this.valide = valide;
+	private void setValid(boolean valide) {
+		this.valid = valide;
 	}
 
 	@Override
 	public String toString() {
-		return "CalcEntry [id=" + id + ", operation=" + operation + ", result=" + result + ", valide=" + valide
+		return "CalcEntry [id=" + id + ", operation=" + operation + ", result=" + result + ", valid=" + valid
 				+ ", date=" + date + "]";
 	}
 }
