@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class CalcDbApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(CalcDbApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(CalcDbApplication.class, args);
+  }
 }

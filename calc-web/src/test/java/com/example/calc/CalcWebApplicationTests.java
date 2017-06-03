@@ -9,9 +9,8 @@ import org.springframework.util.Assert;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CalcWebApplicationTests {
-
-	@Test
-	public void contextLoads() {
-		Assert.isTrue( true, "Something went wrong :(" );
-	}
+  @Test
+  public void contextLoads() {
+    Assert.isTrue(true, "Something went wrong :(");
+  }
 }
