@@ -4,34 +4,45 @@ package com.example.calc;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith(Parameterized.class)
 public class CalcWorkerExceptionTests {
+  @Parameter(0)
+  public String operation;
+  @Parameter(1)
+  public double result;
+  @Parameter(2)
+  public double delta;
 
-  // static double calculate(String operation) throws Exception {
-  // return new Expression(operation).eval().doubleValue();
-  // }
+  // creates the test data
+  // Array contains: Operation, expected result, accepted delta
+  @Parameters
+  public static Collection<Object[]> data() {
+    Object[][] data = new Object[][] {{"2+3*5)", 17.0, 0.0}, {"(2+3*5", 17.0, 0.0},
+        {"(2+3*5", 17.0, 0.0}, {"-2(5+5)", -10.0, 0.0}, {"1/0", 0.0, 0.0}};
+    return Arrays.asList(data);
+  }
+
 
   // Test fails, if no exceptions are thrown
   @Test(expected = Exception.class)
-  public final void testCalculateExceptions1() throws Exception {
-    final String op19 = "2+(3*5";
-    assertEquals("Operation: " + op19, 17.0, CalcWorker.calculate(op19), 0.0);
-
-    // Es muss mind. 1 Exception kommen, damit der Test erfolgreich ist
-    // ==> jeder Funktionsaufruf, der eine Exception machen soll, muss ein eigener Test werden.
-
+  public void testCalculate() throws Exception {
+    Calc tester = new Calc();
+    assertEquals("Operation: " + operation, result, tester.calc(operation), delta);
   }
 
-  @Test(expected = Exception.class)
-  public final void testCalculateExceptions2() throws Exception {
-    final String op = "2+3*5)";
-    assertEquals("Operation: " + op, 17.0, CalcWorker.calculate(op), 0.0);
-  }
 
-  @Test(expected = Exception.class)
-  public final void testCalculateExceptions3() throws Exception {
-    final String op = "1/0";
-    assertEquals("Operation: " + op, 0.0, CalcWorker.calculate(op), 0.0);
+  class Calc {
+    public double calc(String operation) throws Exception {
+      return CalcWorker.calculate(operation);
+    }
   }
 }
