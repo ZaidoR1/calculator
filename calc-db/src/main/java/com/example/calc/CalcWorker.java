@@ -7,7 +7,7 @@ public class CalcWorker {
    * Calculates a result, based on the operation string entry. Operation may be something like
    * "3+5*7+17" or "SQRT(9)" or "100.678/2^3" or "(3+5)*2" or whatever
    *
-   * @param entry
+   * @param operation
    * @return double the result
    * @throws Exception if e.g. invalid operation
    * @see <a href=
