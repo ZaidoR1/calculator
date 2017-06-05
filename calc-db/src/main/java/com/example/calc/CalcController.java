@@ -29,7 +29,7 @@ public class CalcController {
     return ResponseEntity.notFound().build();
   }
 
-  @PostMapping("history")
+  @PostMapping("calculate")
   public ResponseEntity<?> add(@RequestBody CalcEntry entry) {
     return ResponseEntity.status(HttpStatus.CREATED).body(repo.save(entry));
   }
