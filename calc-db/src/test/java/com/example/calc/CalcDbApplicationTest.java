@@ -21,7 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class CalcDbApplicationTests {
+public class CalcDbApplicationTest {
+
   @Autowired
   private MockMvc mock;
 

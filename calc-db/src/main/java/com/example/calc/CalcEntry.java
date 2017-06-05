@@ -17,11 +17,12 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 public class CalcEntry {
+
   private static final Logger logger = LoggerFactory.getLogger(CalcEntry.class);
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+  private long id;
 
   private String operation;
 
@@ -43,11 +44,11 @@ public class CalcEntry {
     setOperation(operation);
   }
 
-  public Long getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(long id) {
     this.id = id;
   }
 
@@ -59,6 +60,7 @@ public class CalcEntry {
     if (operation == null) {
       operation = "";
     }
+
     this.operation = operation.trim().replaceAll(",", ".");
     try {
       setResult(CalcWorker.calculate(operation));
